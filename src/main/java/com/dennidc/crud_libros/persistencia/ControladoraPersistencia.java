@@ -25,5 +25,17 @@ public class ControladoraPersistencia {
             Logger.getLogger(ControladoraPersistencia.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    public Libro traerLibros(int idLibro) {
+        return libroJpa.findLibro(idLibro);
+    }
+
+    public void modificarLibro(Libro libro) {
+        try {
+            libroJpa.edit(libro);
+        } catch (Exception ex) {
+            Logger.getLogger(ControladoraPersistencia.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
 }

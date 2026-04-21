@@ -28,6 +28,20 @@ public class Controladora {
         controlPersis.borrarLibro(idLibro);
     }
 
+    public void modificarLibro(Libro libro, String titulo, String autor, String editorial, String genero, String ubicacion) {
+        libro.setTitulo(titulo);
+        libro.setAutor(autor);
+        libro.setEditorial(editorial);
+        libro.setGenero(genero);
+        libro.setUbiBiblioteca(ubicacion);
+        
+        controlPersis.modificarLibro(libro);
+    }
+
+    public Libro traerLibro(int idLibro) {
+        return controlPersis.traerLibros(idLibro);
+    }
+
     
     
 }

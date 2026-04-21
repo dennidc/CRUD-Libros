@@ -81,6 +81,11 @@ public class ConsultaLibro extends javax.swing.JFrame {
 
         btnModificar.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         btnModificar.setText("Modificar");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -100,12 +105,12 @@ public class ConsultaLibro extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 473, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(35, 35, 35)
                         .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 342, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -148,20 +153,64 @@ public class ConsultaLibro extends javax.swing.JFrame {
         if (tablaLibros.getRowCount() > 0) {
             //valido que se haya seleccionado el registro
             if (tablaLibros.getSelectedRow() != -1) {
-                //obtener id
-                int idLibro = Integer.parseInt(String.valueOf(tablaLibros.getValueAt(tablaLibros.getSelectedRow(), 0)));
+                // Mensaje de confirmación
+            int opcion = JOptionPane.showConfirmDialog(
+                    null,
+                    "¿Desea eliminar el libro seleccionado?",
+                    "Eliminar Libro",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE
+            );
+
+            // Si presiona Sí
+            if (opcion == JOptionPane.YES_OPTION) {
+
+                // Obtener ID del libro
+                int idLibro = Integer.parseInt(
+                        String.valueOf(
+                                tablaLibros.getValueAt(
+                                        tablaLibros.getSelectedRow(), 0
+                                )
+                        )
+                );
+
+                // Eliminar
                 control.borrarLibro(idLibro);
-                mostrarMensaje("Libro eliminado correctamente", "Info", "Eliminación exitoso");
+
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Libro eliminado correctamente.",
+                        "Eliminación Exitosa",
+                        JOptionPane.INFORMATION_MESSAGE
+                );
+
                 cargarTabla();
+
+            }
             } else {
                 mostrarMensaje("No se seleccionó un registro", "Info", "No hay datos en la tabla");
             }
-
-    }//GEN-LAST:event_btnEliminarActionPerformed
-        else {
-            mostrarMensaje("No hay datos en la tabla", "Info", "No hay datos en la tabla");
         }
-    }
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        if(tablaLibros.getRowCount()>0){
+            if(tablaLibros.getSelectedRow()!=-1){
+                int idLibro = Integer.parseInt(String.valueOf(tablaLibros.getValueAt(tablaLibros.getSelectedRow(), 0)));
+                
+                ModifLibro modif = new ModifLibro(idLibro);
+                modif.setVisible(true);
+                modif.setLocationRelativeTo(null);
+                //cerramos la ventana
+                this.dispose();
+                
+            }else{
+                mostrarMensaje("No se seleccionó un registro para modificar","Error","Error al modificar");
+            }
+        }else{
+            mostrarMensaje("No hay datos en la tabla","Info","No hay datos en la tabla");
+        }
+    }//GEN-LAST:event_btnModificarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEliminar;
