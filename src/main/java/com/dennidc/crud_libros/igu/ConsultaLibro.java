@@ -3,6 +3,8 @@ package com.dennidc.crud_libros.igu;
 import com.dennidc.crud_libros.logica.Controladora;
 import com.dennidc.crud_libros.logica.Libro;
 import java.util.List;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class ConsultaLibro extends javax.swing.JFrame {
@@ -143,8 +145,23 @@ public class ConsultaLibro extends javax.swing.JFrame {
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         //controla que la tabla no esté vacia
-    }//GEN-LAST:event_btnEliminarActionPerformed
+        if (tablaLibros.getRowCount() > 0) {
+            //valido que se haya seleccionado el registro
+            if (tablaLibros.getSelectedRow() != -1) {
+                //obtener id
+                int idLibro = Integer.parseInt(String.valueOf(tablaLibros.getValueAt(tablaLibros.getSelectedRow(), 0)));
+                control.borrarLibro(idLibro);
+                mostrarMensaje("Libro eliminado correctamente", "Info", "Eliminación exitoso");
+                cargarTabla();
+            } else {
+                mostrarMensaje("No se seleccionó un registro", "Info", "No hay datos en la tabla");
+            }
 
+    }//GEN-LAST:event_btnEliminarActionPerformed
+        else {
+            mostrarMensaje("No hay datos en la tabla", "Info", "No hay datos en la tabla");
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEliminar;
@@ -183,6 +200,18 @@ public class ConsultaLibro extends javax.swing.JFrame {
              }
          }
          tablaLibros.setModel(modelTabla);
+    }
+    
+    public void mostrarMensaje(String mensaje, String tipo, String titulo){
+        JOptionPane optionPane = new JOptionPane(mensaje);
+            if(tipo.equals("Info")){
+                optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
+            }else if(tipo.equals("Error")){
+                optionPane.setMessageType(JOptionPane.ERROR_MESSAGE);
+            }
+            JDialog dialog = optionPane.createDialog(titulo);
+            dialog.setAlwaysOnTop(true);
+            dialog.setVisible(true);
     }
 
 }

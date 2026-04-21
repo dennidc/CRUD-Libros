@@ -24,6 +24,10 @@ public class Controladora {
         
     }
 
+    public void borrarLibro(int idLibro) {
+        controlPersis.borrarLibro(idLibro);
+    }
+
     
     
 }
